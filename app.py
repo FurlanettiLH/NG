@@ -1,5 +1,5 @@
 # Pesquisa de índice de Ng por cidade — SPDA
-# Versão para GitHub / Streamlit Community Cloud (caminhos relativos ao repositório)
+# Versão para GitHub / Streamlit Community Cloud
 import streamlit as st
 import pandas as pd
 import pydeck as pdk
@@ -11,7 +11,6 @@ import unicodedata
 
 st.set_page_config(layout="wide", page_title="Mapa Ng", page_icon=":material/thunderstorm:")
 
-# Estilo opcional: se existir um style.py local (ex.: identidade visual UFF), aplica.
 try:
     from style import apply_sidebar_style  # type: ignore
     apply_sidebar_style()
@@ -25,7 +24,7 @@ BASE_DIR      = Path(__file__).parent
 DATA_DIR      = BASE_DIR / "data"
 CACHE_PARQUET = DATA_DIR / "ng_municipios_cache_2026.parquet"
 ARQUIVO_CSV   = DATA_DIR / "ng_municipios.csv"
-ARQUIVO_SHP   = DATA_DIR / "BR_Municipios_2024.shp"   # só usado localmente para regerar o cache
+ARQUIVO_SHP   = DATA_DIR / "BR_Municipios_2024.shp"  
 
 LABELS_NG = ["Muito baixo (mínimo local)", "Baixo", "Médio", "Alto", "Muito alto (máximo local)"]
 CORES_NG = {
@@ -271,7 +270,6 @@ with st.expander(":material/table_chart: Ver dados tabulares"):
     )
     st.dataframe(tabela, width="stretch", height=320)
 
-    # Exporta só a tabela (geometria e cor não vão para o Excel)
     buf = io.BytesIO()
     with pd.ExcelWriter(buf, engine="openpyxl") as w:
         tabela.assign(Classe=tabela["Classe"].astype(str)).to_excel(w, index=False, sheet_name="Ng")
