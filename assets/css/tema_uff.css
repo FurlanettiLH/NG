@@ -1,0 +1,281 @@
+/* ==========================================================
+   Tema UFF (escuro) — Mapa Ng
+   Trabalho de Extensão · TEE00198 Instalações Elétricas · 2026.2
+
+   Cores-base do "Manual de Aplicação do Logo da UFF":
+   Azul-UFF #004f9f. Os demais azuis são derivados dele para
+   manter contraste sobre o fundo escuro.
+   As cores dos widgets (slider, botões, campos) ficam em
+   .streamlit/config.toml.
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --uff-azul: #004f9f;          /* Azul-UFF oficial */
+    --uff-azul-escuro: #003b77;   /* derivado */
+    --uff-azul-vivo: #1a6cc4;     /* derivado: destaques sobre fundo escuro */
+    --uff-azul-texto: #8fbdf0;    /* derivado: texto azul sobre fundo escuro */
+    --uff-fundo: #0f1216;
+    --uff-superficie: #171c22;
+    --uff-borda: #2a323c;
+    --uff-texto: #e8eaed;
+    --uff-texto-suave: #a9b3bf;
+    --uff-texto-sobre-azul: #dbe7f5;
+    --uff-fonte: 'Barlow', Arial, sans-serif;
+    --uff-raio: 0.75rem;
+}
+
+/* ---------- Estrutura geral ---------- */
+.stApp [data-testid="stHeader"] {
+    box-shadow: inset 0 3px 0 0 var(--uff-azul-vivo);
+}
+.stApp [data-testid="stMainBlockContainer"] {
+    padding-top: 4.5rem;
+    padding-bottom: 2rem;
+}
+
+/* ---------- Barra lateral ---------- */
+.stApp [data-testid="stSidebar"] {
+    border-top: 3px solid var(--uff-azul-vivo);
+}
+.stApp [data-testid="stSidebar"] h2,
+.stApp [data-testid="stSidebar"] h3 {
+    color: var(--uff-azul-texto);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+.uff-legenda-cor {
+    border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+/* ---------- Cabeçalho ---------- */
+.uff-cabecalho {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem 1.75rem;
+    padding: 1.5rem 1.75rem;
+    border-radius: var(--uff-raio);
+    background: linear-gradient(135deg, var(--uff-azul) 0%, var(--uff-azul-escuro) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    color: #ffffff;
+    font-family: var(--uff-fonte);
+}
+
+/* Logos: UFF em placa branca (contraste pedido pelo manual da marca);
+   Escola de Engenharia direto sobre o azul, já que o logo tem detalhes brancos */
+.uff-cabecalho__marcas {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+.uff-marcas {
+    display: flex;
+    align-items: center;
+    height: 4.5rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 0.6rem;
+    background: #ffffff;
+    text-decoration: none;
+}
+.uff-marcas img {
+    display: block;
+    height: 100%;
+    width: auto;
+    max-width: 14rem;
+}
+.uff-marca-escola img {
+    display: block;
+    height: 5.25rem;
+    width: auto;
+}
+@media (max-width: 640px) {
+    .uff-marcas { height: 3.75rem; }
+    .uff-marca-escola img { height: 4.5rem; }
+}
+
+.uff-cabecalho__textos {
+    flex: 1 1 20rem;
+    min-width: 0;
+}
+.uff-cabecalho__instituicao {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--uff-texto-sobre-azul);
+}
+.uff-cabecalho__titulo {
+    margin: 0.2rem 0 0.3rem;
+    padding: 0;
+    font-family: var(--uff-fonte);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: #ffffff;
+}
+.uff-cabecalho__subtitulo {
+    font-size: 1rem;
+    line-height: 1.45;
+    color: var(--uff-texto-sobre-azul);
+}
+.uff-selos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.85rem;
+}
+.uff-selo {
+    padding: 0.18rem 0.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+}
+.uff-selo--destaque {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: var(--uff-azul);
+}
+
+/* ---------- Métricas ---------- */
+.stApp [data-testid="stMetric"] {
+    background: var(--uff-superficie);
+    border-left: 4px solid var(--uff-azul-vivo);
+}
+.stApp [data-testid="stMetricLabel"] p {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--uff-texto-suave);
+}
+.stApp [data-testid="stMetricValue"] {
+    font-weight: 700;
+}
+
+/* ---------- Expander da tabela ---------- */
+.stApp [data-testid="stExpander"] summary {
+    color: var(--uff-azul-texto);
+    font-weight: 600;
+}
+
+/* ---------- Rodapé ---------- */
+.uff-rodape {
+    margin-top: 2rem;
+    border-radius: var(--uff-raio);
+    border: 1px solid var(--uff-borda);
+    border-top: 4px solid var(--uff-azul-vivo);
+    background: var(--uff-superficie);
+    color: var(--uff-texto);
+    font-family: var(--uff-fonte);
+    overflow: hidden;
+}
+.uff-rodape__grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.5rem 2.5rem;
+    padding: 1.75rem;
+}
+.uff-rodape__nome {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+.uff-rodape__unidade {
+    margin-top: 0.15rem;
+    font-weight: 600;
+    color: var(--uff-azul-texto);
+}
+.uff-rodape__endereco {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--uff-texto-suave);
+}
+.uff-rodape__titulo {
+    margin: 0 0 0.6rem;
+    padding: 0;
+    font-family: var(--uff-fonte);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--uff-azul-texto);
+}
+.uff-rodape__linha {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+.uff-rodape__periodo {
+    margin-top: 0.1rem;
+    font-size: 0.85rem;
+    color: var(--uff-texto-suave);
+}
+.uff-rodape__equipe {
+    margin: 0.6rem 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--uff-texto-suave);
+}
+.uff-rodape__equipe li::before {
+    content: "";
+    display: inline-block;
+    width: 0.4rem;
+    height: 0.4rem;
+    margin: 0 0.55rem 0.12rem 0;
+    border-radius: 50%;
+    background: var(--uff-azul-vivo);
+}
+.uff-rodape__redes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+.stApp .uff-rodape a {
+    color: var(--uff-texto);
+    text-decoration: none;
+}
+.stApp .uff-rodape a.uff-rodape__rede {
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--uff-borda);
+    border-radius: 999px;
+    background: var(--uff-fundo);
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+.stApp .uff-rodape a.uff-rodape__rede:hover,
+.stApp .uff-rodape a.uff-rodape__rede:focus-visible {
+    background: var(--uff-azul);
+    border-color: var(--uff-azul-vivo);
+    color: #ffffff;
+}
+.uff-rodape__base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.4rem 1.5rem;
+    padding: 0.85rem 1.75rem;
+    border-top: 1px solid var(--uff-borda);
+    background: var(--uff-fundo);
+    font-size: 0.8rem;
+    color: var(--uff-texto-suave);
+}
+.uff-rodape__links {
+    display: flex;
+    gap: 1.25rem;
+}
+.stApp .uff-rodape .uff-rodape__links a:hover,
+.stApp .uff-rodape .uff-rodape__links a:focus-visible {
+    color: var(--uff-azul-texto);
+    text-decoration: underline;
+}

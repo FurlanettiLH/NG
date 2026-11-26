@@ -1,5 +1,5 @@
 # Pesquisa de índice de Ng por cidade — SPDA
-# Versão para GitHub / Streamlit Community Cloud
+# Versão para GitHub / Streamlit Community Cloud (caminhos relativos ao repositório)
 import streamlit as st
 import pandas as pd
 import pydeck as pdk
@@ -9,13 +9,10 @@ from typing import Any, cast
 import io
 import unicodedata
 
-st.set_page_config(layout="wide", page_title="Mapa Ng", page_icon=":material/thunderstorm:")
+import tema as uff  # identidade visual UFF: pasta tema/, assets/ e .streamlit/config.toml
 
-try:
-    from style import apply_sidebar_style  # type: ignore
-    apply_sidebar_style()
-except ImportError:
-    pass
+st.set_page_config(layout="wide", page_title="Mapa Ng | UFF", page_icon=uff.ICONE_UFF)
+uff.aplicar_tema()
 
 # --------------------------------------------------
 # Constantes (tudo relativo à pasta do app)
@@ -24,7 +21,7 @@ BASE_DIR      = Path(__file__).parent
 DATA_DIR      = BASE_DIR / "data"
 CACHE_PARQUET = DATA_DIR / "ng_municipios_cache_2026.parquet"
 ARQUIVO_CSV   = DATA_DIR / "ng_municipios.csv"
-ARQUIVO_SHP   = DATA_DIR / "BR_Municipios_2024.shp"  
+ARQUIVO_SHP   = DATA_DIR / "BR_Municipios_2024.shp"   # só usado localmente para regerar o cache
 
 LABELS_NG = ["Muito baixo (mínimo local)", "Baixo", "Médio", "Alto", "Muito alto (máximo local)"]
 CORES_NG = {
@@ -129,7 +126,7 @@ def render_legenda(labels_visiveis: list[str]) -> None:
         rgba = f"rgba({cor[0]},{cor[1]},{cor[2]},{cor[3]/255:.2f})"
         st.sidebar.markdown(
             f"""<div style="display:flex;align-items:center;margin-bottom:4px;">
-                  <div style="width:16px;height:16px;background:{rgba};
+                  <div class="uff-legenda-cor" style="width:16px;height:16px;background:{rgba};
                               margin-right:8px;border-radius:3px;"></div>
                   <span>{label}</span>
                </div>""",
@@ -141,10 +138,10 @@ def render_legenda(labels_visiveis: list[str]) -> None:
 # --------------------------------------------------
 def render_estatisticas(df: pd.DataFrame) -> None:
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Pontos exibidos",  f"{len(df):,}".replace(",", "."))
-    col2.metric("Ng mínimo",        f"{df['Dens_km2_ano'].min():.2f}")
-    col3.metric("Ng máximo",        f"{df['Dens_km2_ano'].max():.2f}")
-    col4.metric("Ng médio",         f"{df['Dens_km2_ano'].mean():.2f}")
+    col1.metric("Pontos exibidos",  f"{len(df):,}".replace(",", "."), border=True)
+    col2.metric("Ng mínimo",        f"{df['Dens_km2_ano'].min():.2f}", border=True)
+    col3.metric("Ng máximo",        f"{df['Dens_km2_ano'].max():.2f}", border=True)
+    col4.metric("Ng médio",         f"{df['Dens_km2_ano'].mean():.2f}", border=True)
 
 # --------------------------------------------------
 # Construção das layers PyDeck
@@ -176,14 +173,19 @@ def build_deck(df_mapa: gpd.GeoDataFrame, zoom: float) -> pdk.Deck:
         layers=[geojson_layer],
         initial_view_state=view,
         map_style="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
-        tooltip=cast(Any, {"text": "Cidade: {Cidade}\nUF: {SIGLA_UF}\nNg: {Dens_km2_ano}\nClasse: {Ng_classe}"}),
+        tooltip=cast(Any, {
+            "text": "Cidade: {Cidade}\nUF: {SIGLA_UF}\nNg: {Dens_km2_ano}\nClasse: {Ng_classe}",
+            "style": uff.ESTILO_TOOLTIP_MAPA,
+        }),
     )
 
 # ==================================================
 # APP PRINCIPAL
 # ==================================================
-st.title("Mapa Ng")
-st.caption("Densidade de descargas atmosféricas (raios/km²/ano) · ABNT NBR 5419-2:2026")
+uff.cabecalho(
+    "Mapa Ng",
+    "Densidade de descargas atmosféricas (raios/km²/ano) · ABNT NBR 5419-2:2026",
+)
 
 gdf = carregar_gdf()
 
@@ -236,6 +238,7 @@ df_mapa = df_mapa[df_mapa["Dens_km2_ano"].between(ng_range[0], ng_range[1])].cop
 
 if df_mapa.empty:
     st.warning("Nenhum ponto encontrado com os filtros selecionados.")
+    uff.rodape()
     st.stop()
 
 # --------------------------------------------------
@@ -270,6 +273,7 @@ with st.expander(":material/table_chart: Ver dados tabulares"):
     )
     st.dataframe(tabela, width="stretch", height=320)
 
+    # Exporta só a tabela (geometria e cor não vão para o Excel)
     buf = io.BytesIO()
     with pd.ExcelWriter(buf, engine="openpyxl") as w:
         tabela.assign(Classe=tabela["Classe"].astype(str)).to_excel(w, index=False, sheet_name="Ng")
@@ -278,5 +282,11 @@ with st.expander(":material/table_chart: Ver dados tabulares"):
         data=buf.getvalue(),
         file_name="Tabela NG (Excel).xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        type="primary",
         width="stretch",
     )
+
+# --------------------------------------------------
+# Rodapé institucional UFF
+# --------------------------------------------------
+uff.rodape()

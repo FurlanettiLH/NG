@@ -1,0 +1,25 @@
+# Tema UFF (escuro) — Mapa Ng
+# Trabalho de Extensão · TEE00198 Instalações Elétricas · 2026.2
+#
+# Base: Azul-UFF #004f9f ("Manual de Aplicação do Logo da UFF").
+# Sobre fundo escuro, os controles usam um tom derivado mais claro
+# (#1a6cc4) para manter o contraste. Fonte Barlow, a mesma das
+# assinaturas dos órgãos da UFF. O fundo escuro combina com o mapa.
+#
+# Acabamentos visuais (cabeçalho, rodapé, cartões): assets/css/tema_uff.css
+
+[theme]
+base = "dark"
+primaryColor = "#1a6cc4"
+backgroundColor = "#0f1216"
+secondaryBackgroundColor = "#171c22"
+textColor = "#e8eaed"
+linkColor = "#8fbdf0"
+borderColor = "#2a323c"
+showWidgetBorder = true
+font = "Barlow:https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap"
+dataframeHeaderBackgroundColor = "#1d242c"
+
+[theme.sidebar]
+backgroundColor = "#13171c"
+secondaryBackgroundColor = "#0f1216"

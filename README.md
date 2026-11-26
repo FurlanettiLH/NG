@@ -3,6 +3,21 @@
 Mapa interativo da densidade de descargas atmosféricas **Ng** (raios/km²/ano) por município,
 conforme a Tabela F.1 do Anexo F da ABNT NBR 5419-2:2026.
 
+## Identidade visual UFF
+
+Trabalho de Extensão · TEE00198 Instalações Elétricas · 2026.2
+Grupo: Luiz Furlanetti, João Victor C. Magalhães e Tyrone Hentzy Stellet.
+
+Tema escuro baseado no Azul-UFF (`#004f9f`) e na fonte Barlow, organizado em pastas:
+
+```
+.streamlit/config.toml     cores dos widgets, fundo escuro e fonte
+assets/css/tema_uff.css    estilos de cabeçalho, rodapé, cartões e barra lateral
+assets/img/                logos (veja assets/img/LEIA-ME.md)
+tema/identidade.py         textos: disciplina, período, integrantes, links e redes da UFF
+tema/componentes.py        monta cabeçalho, rodapé e carrega o CSS e os logos
+```
+
 ## Rodar localmente
 
 ```bash
@@ -14,3 +29,6 @@ streamlit run app.py
 
 - `data/ng_municipios_cache_2026.parquet`: municípios com geometria simplificada e Ng (é o que o app lê).
 - `data/ng_municipios.csv`: valores de Ng por município (Município, UF, NG), com os nomes compatibilizados com a malha do IBGE.
+
+Para regerar o cache, coloque o shapefile `BR_Municipios_2024` do IBGE (.shp, .shx, .dbf, .prj, .cpg)
+em `data/`, apague o parquet e rode o app. O shapefile não vai para o repositório (está no `.gitignore`).
